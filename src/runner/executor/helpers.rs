@@ -103,6 +103,7 @@ pub async fn save_last_checked(
     last_checked_task_id: u64,
     last_checked_sub_task_id: u64,
     root_dir: &Path,
+    halt_file_name: &String,
 ) -> crate::Result<()> {
     let halt_config = HaltConfig {
         version: release_config.version.clone(),
@@ -115,11 +116,11 @@ pub async fn save_last_checked(
 
     let data = serde_yaml::to_vec(&halt_config).context("Couldn't convert halt config to yaml")?;
 
-    fs::write(root_dir.join(constants::HALT_CONFIG_FILE_NAME), data)
+    fs::write(root_dir.join(halt_file_name), data)
         .await
         .context(format!(
             "Couldn't write task's checked state to halt config file: {}",
-            constants::HALT_CONFIG_FILE_NAME
+            halt_file_name
         ))?;
 
     Ok(())

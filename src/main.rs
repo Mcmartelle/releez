@@ -1,8 +1,8 @@
-extern crate releez;
+extern crate checkboxer;
 use clap::{App, Arg};
 use colored::*;
-use releez::constants;
-use releez::out;
+use checkboxer::constants;
+use checkboxer::out;
 use tokio::runtime::Builder;
 
 async fn run() {
@@ -10,7 +10,7 @@ async fn run() {
         .version(constants::APP_VERSION)
         .version_short("v")
         .author(constants::APP_AUTHOR)
-        .about("An utility tool to run application release-checklist safely.\nPlease visit https://github.com/rousan/releez for more information.")
+        .about("An utility tool to run through checklists.")
         .arg(
             Arg::with_name("config")
                 .help(format!("The {} config file path", constants::CONFIG_FILE_NAME).as_str())
@@ -25,16 +25,18 @@ async fn run() {
                 .help("The next release version")
                 .value_name("RELEASE_VERSION")
                 .index(1)
-                .required(true),
+                .required(false),
         )
         .get_matches();
 
     let config_file_path = matches
         .value_of("config")
         .unwrap_or(constants::DEFAULT_CONFIG_FILE_PATH);
-    let release_version = matches.value_of("releaseVersion").unwrap();
+    let release_version = matches
+        .value_of("releaseVersion")
+        .unwrap_or(constants::DEFAULT_RELEASE_VERSION);
 
-    if let Err(err) = releez::runner::run_release_checklist(config_file_path, release_version).await {
+    if let Err(err) = checkboxer::runner::run_release_checklist(config_file_path, release_version).await {
         out::print_err(format!("\n{} {}\n", "error:".red(), err)).await.unwrap();
     }
 }

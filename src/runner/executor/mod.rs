@@ -1,4 +1,4 @@
-use crate::constants;
+// use crate::constants;
 use crate::out;
 use crate::prelude::*;
 use crate::types::{HaltConfig, ReleaseConfig, TaskType};
@@ -15,6 +15,7 @@ pub async fn execute_checklist(
     halt_config: Option<&HaltConfig>,
     release_version: &Version,
     root_dir: &Path,
+    halt_file_name: &String,
 ) -> crate::Result<()> {
     let vars_data = helpers::gen_vars_data(release_version);
 
@@ -41,6 +42,7 @@ pub async fn execute_checklist(
                     task,
                     start_sub_task_id,
                     root_dir,
+                    halt_file_name,
                     &vars_data,
                 )
                 .await?
@@ -52,6 +54,7 @@ pub async fn execute_checklist(
                     task,
                     start_sub_task_id,
                     root_dir,
+                    halt_file_name,
                     &vars_data,
                 )
                 .await?
@@ -59,11 +62,11 @@ pub async fn execute_checklist(
         }
     }
 
-    fs::remove_file(root_dir.join(constants::HALT_CONFIG_FILE_NAME))
+    fs::remove_file(root_dir.join(halt_file_name))
         .await
         .context(format!(
             "Failed to remove the halt file: {}",
-            constants::HALT_CONFIG_FILE_NAME
+            halt_file_name
         ))?;
 
     Ok(())

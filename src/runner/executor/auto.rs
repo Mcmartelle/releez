@@ -15,6 +15,7 @@ pub async fn execute_auto_task(
     task: &Task,
     start_sub_task_id: u64,
     root_dir: &Path,
+    halt_file_name: &String,
     vars_data: &HashMap<String, String>,
 ) -> crate::Result<()> {
     out::print(format!("{} {}\n\n", "Running:".green().bold(), task.name.as_str())).await?;
@@ -46,7 +47,7 @@ pub async fn execute_auto_task(
             )));
         }
 
-        helpers::save_last_checked(release_config, task_id, idx, root_dir).await?;
+        helpers::save_last_checked(release_config, task_id, idx, root_dir, halt_file_name).await?;
         out::print("\n").await?;
     }
 

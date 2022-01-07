@@ -1,0 +1,26 @@
+version: 0.1.0
+checklist:
+  - name: Build App
+    type: manual
+    instructions:
+      - Commit changes to branch_name
+      - Push commit to qat/branch_name in super repo
+      - Wait for build complete notification in unity_abcmouse_ela_us slack channel
+  - name: Setup Device
+    type: manual
+    instructions:
+      - Login with 1122
+      - Use camera on QR code in unity_abcmouse_ela_us slack channel
+      - Trust developer in Settings > General > Device Management > Enterprise App > Age of Learning, Inc
+      - Ensure GlobalProtect is connected
+      - Set API server to correct qtest
+      - Login to app
+  - name: Test Changes
+    type: manual
+    instructions:
+      - Test the thing
+  - name: Testing Auto Command
+    type: auto
+    confirm: Are you sure you want to say hello?
+    run:
+      - echo 'hello'

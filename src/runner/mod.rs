@@ -32,17 +32,30 @@ pub async fn run_release_checklist(config_file_path: &str, release_version: &str
             .as_str(),
     )
     .context("Couldn't parse the config file as a yaml file")?;
+    
+    let halt_file_name: String = format!(
+        "{}{}",
+        constants::HALT_CONFIG_FILE_PREFIX,
+        config_file_path
+            .clone()
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+        );
 
-    let halt_config = fs::read_to_string(project_root_dir.join(constants::HALT_CONFIG_FILE_NAME))
+    let halt_config = fs::read_to_string(project_root_dir.join(halt_file_name.clone()))
         .await
         .ok()
         .and_then(|config_text| HaltConfig::parse(config_text.as_str()).ok());
+
 
     executor::execute_checklist(
         &release_config,
         halt_config.as_ref(),
         &release_version,
         project_root_dir,
+        &halt_file_name,
     )
     .await?;
 

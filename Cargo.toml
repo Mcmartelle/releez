@@ -1,12 +1,12 @@
 [package]
-name = "releez"
-version = "1.0.3"
-description = "An utility tool to run application release-checklist safely."
+name = "checkboxer"
+version = "0.1.0"
+description = "An utility tool to run through checklists."
 homepage = "https://github.com/rousan/releez"
 repository = "https://github.com/rousan/releez"
 keywords = ["release", "checklist", "runner", "asynchronous"]
 categories = ["command-line-utilities", "asynchronous"]
-authors = ["Rousan Ali <hello@rousan.io>"]
+authors = ["Rousan Ali <hello@rousan.io>", "Matthew Martelle <mcmartelle@gmail.com>"]
 readme = "README.md"
 license = "MIT"
 edition = "2018"
